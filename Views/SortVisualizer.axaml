@@ -1,0 +1,78 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:viewModels="clr-namespace:AlgorithmVisualizer.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AlgorithmVisualizer.Views.SortVisualizer" x:DataType="viewModels:SortVisualizerViewModel">
+    <UserControl.Resources>
+        <x:Double x:Key="ButtonSize">32</x:Double>
+    </UserControl.Resources>
+
+    <Grid ColumnDefinitions="*,2,3*">
+        <Grid Grid.Column="0">
+            <!-- Algorithm Selection -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                <Label Content="Algorithm: " />
+                <ComboBox ItemsSource="{CompiledBinding SortingAlgorithms}" Name="Algorithms" SelectedIndex="0" Loaded="Algorithms_OnLoaded"
+                          SelectedItem="{CompiledBinding SelectedAlgorithm}" HorizontalAlignment="Stretch" />
+            </StackPanel>
+        </Grid>
+
+        <GridSplitter Grid.Column="1" />
+
+        <Grid Grid.Column="2" Background="Transparent" RowDefinitions="Auto, 2*,*">
+
+
+            <!-- Chart -->
+            <lvc:CartesianChart Grid.Row="0" Grid.RowSpan="2" Series="{Binding Series}" Background="WhiteSmoke"></lvc:CartesianChart>
+
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="4" Margin="8" HorizontalAlignment="Right">
+                <!-- Stop all threads -->
+                <Button Command="{CompiledBinding StopCommand}"
+                        CommandParameter="{CompiledBinding}"
+                        Content="{avalonia:MaterialIconExt Kind=Stop}"
+                        Background="LightGray" Foreground="#282828"
+                        Height="{StaticResource ButtonSize}"
+                        Width="{StaticResource ButtonSize}" />
+                <!-- Start thread paused -->
+                <ToggleButton Command="{CompiledBinding PauseCommand}"
+                              CommandParameter="{CompiledBinding }"
+                              IsChecked="{CompiledBinding IsPaused}"
+                              Content="{avalonia:MaterialIconExt Kind=Pause}"
+                              Background="LightGray" Foreground="#282828"
+                              Height="{StaticResource ButtonSize}"
+                              Width="{StaticResource ButtonSize}" />
+                <!-- Begin animation/step through algorithm -->
+                <Button Command="{CompiledBinding StartCommand}"
+                        CommandParameter="{CompiledBinding }"
+                        Content="{avalonia:MaterialIconExt Kind=Play}"
+                        Background="LightGray" Foreground="#282828"
+                        Height="{StaticResource ButtonSize}"
+                        Width="{StaticResource ButtonSize}" />
+            </StackPanel>
+
+
+            <Grid Grid.Row="2" ColumnDefinitions="*,*" RowDefinitions="*,*,*,*">
+                <!-- <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal"> -->
+                <!--     <Label Content="Actual Complexity: " /> -->
+                <!--     <TextBlock Text="{CompiledBinding Complexity}" /> -->
+                <!-- </StackPanel> -->
+                <!-- <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal"> -->
+                <!--     <Label Content="Best Complexity: " /> -->
+                <!--     <TextBlock Text="{CompiledBinding BestCaseComplexity}" /> -->
+                <!-- </StackPanel> -->
+                <!-- <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal"> -->
+                <!--     <Label Content="Worst Complexity: " /> -->
+                <!--     <TextBlock Text="{CompiledBinding WorstCaseComplexity}" /> -->
+                <!-- </StackPanel> -->
+                <!-- <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Horizontal"> -->
+                <!--     <Label Content="Avg Complexity: " /> -->
+                <!--     <TextBlock Text="{CompiledBinding AvgCaseComplexity}" /> -->
+                <!-- </StackPanel> -->
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
